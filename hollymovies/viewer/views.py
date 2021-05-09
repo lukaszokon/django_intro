@@ -1,8 +1,20 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from .models import Movie
+from django.views.generic import ListView, DetailView
+
 
 # Create your views here.
+
+class MovieDetailView(DetailView):
+    model = Movie
+    template_name = 'movie_detail.html'
+
+
+class MovieView(ListView):
+    template_name = 'movies.html'
+    model = Movie
+
 
 
 def hello(request):

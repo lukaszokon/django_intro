@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <p>Utworzono: {{object.created}}</p>
+    <h1>{{object.title}} ({{object.released.year}})</h1>
+    <p>Gatunek: {{object.genre.name}}</p>
+    <p>Ocena: {{object.rating}}</p>
+    <p>Opis: {{object.description}}</p>
+{% endblock %}
