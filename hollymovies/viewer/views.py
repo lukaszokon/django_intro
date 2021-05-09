@@ -1,8 +1,36 @@
+from logging import getLogger
+from operator import attrgetter
+
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.views.generic import ListView, DetailView, CreateView
+from django.urls import reverse_lazy
+from django.core.exceptions import ValidationError
+
+from .forms import MovieForm, GenreForm
 from .models import Movie, Genre
-from django.views.generic import ListView, DetailView
-from operator import attrgetter
+
+LOGGER = getLogger()
+
+
+class GenreCreateView(CreateView):
+    template_name = 'form.html'
+    form_class = GenreForm
+    success_url = reverse_lazy('genres')
+
+    def form_invalid(self, form):
+        LOGGER.warning('Użytkownik przesłał nieprawidłowe dane')
+        return super().form_invalid(form)
+
+
+class MovieCreateView(CreateView):
+    template_name = 'form.html'
+    form_class = MovieForm
+    success_url = reverse_lazy('movies')
+
+    def form_invalid(self, form):
+        LOGGER.warning('Użytkownik przesłał nieprawidłowe dane')
+        return super().form_invalid(form)
 
 
 class MovieView(ListView):
