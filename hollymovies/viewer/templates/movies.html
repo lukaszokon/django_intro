@@ -1,11 +1,17 @@
 {% extends "base.html" %}
 
 {% block content %}
+    <h4>Sortowanie</h4>
+    <ul>
+        <li><a href="{% url 'movies' %}?sort=title">Alfabetycznie</a></li>
+        <li><a href="{% url 'movies' %}?sort=released">Wg czasu powstania</a></li>
+        <li><a href="{% url 'movies' %}?sort=rating">Wg oceny</a></li>
+    </ul>
     <h1>Lista filmów:</h1>
     <ul>
         {% for movie in object_list %}
             <li>
-                {{movie.title}} ({{movie.released.year}}) - {{movie.genre.name}}
+                <a href="{% url 'movie-detail' movie.pk %}">{{movie.title}} ({{movie.released.year}}) - {{movie.genre.name}}</a>
             </li>
         {% endfor %}
     </ul>
