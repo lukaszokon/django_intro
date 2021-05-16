@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <p>Username: {{object.username}}</p>
+    <p>First name: {{object.first_name}}</p>
+    <p>Last name: {{object.last_name}}</p>
+    {% if biography %}
+    <p>Biography: {{biography}}</p>
+    {% endif %}
+{% if user.is_authenticated %}
+    <a href="{% url 'profile-update' %}" class="btn btn-primary">Edytuj</a>
+    <a href="{% url 'profile-delete' %}" class="btn btn-danger">Usuń konto</a>
+{% endif %}
+{% endblock %}

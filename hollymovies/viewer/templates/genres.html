@@ -1,13 +1,20 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Lista gatunków:</h1>
-    <ul>
-        {% for genre in object_list %}
-                <li>
-                    <a href="{% url 'movies' %}?genre={{genre.name}}">{{genre.name}}</a>
-                </li>
-        {% endfor %}
-    </ul>
-    <a href="{% url 'genre-create' %}" class="btn btn-primary">Dodaj gatunek</a>
+<h1>Lista gatunków:</h1>
+<ul>
+    {% for genre in object_list %}
+    <li>
+        <a href="{% url 'movies' %}?genre={{genre.name}}">{{genre.name}}</a>
+        {% if user.is_authenticated %}
+        <br>
+        <a href="{% url 'genre-update' genre.id %}" class="btn btn-primary">Edytuj</a>
+        <a href="{% url 'genre-delete' genre.id %}" class="btn btn-danger">Usuń</a>
+        {% endif %}
+    </li>
+    {% endfor %}
+</ul>
+{% if user.is_authenticated %}
+<a href="{% url 'genre-create' %}" class="btn btn-primary">Dodaj gatunek</a>
+{% endif %}
 {% endblock %}

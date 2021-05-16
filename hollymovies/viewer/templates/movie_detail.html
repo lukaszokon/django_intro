@@ -6,6 +6,8 @@
     <p>Gatunek: {{object.genre.name}}</p>
     <p>Ocena: {{object.rating}}</p>
     <p>Opis: {{object.description}}</p>
+{% if user.is_authenticated %}
     <a href="{% url 'movie-update' object.id %}" class="btn btn-primary">Edytuj film</a>
     <a href="{% url 'movie-delete' object.id %}" class="btn btn-danger">Usuń film</a>
+{% endif %}
 {% endblock %}

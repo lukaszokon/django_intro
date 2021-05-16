@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form method="post">
+    {% csrf_token %}
+      {{ form.non_field_errors }}
+    <div class="form-group">
+        {{ form.username.errors }}
+        <label for="{{ form.username.id_for_label }}">Username:</label>
+        {{ form.username}}
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="form-group">
+                {{form.first_name.errors}}
+                <label for="{{ form.first_name.id_for_label }}">First name:</label>
+                {{form.first_name}}
+            </div>
+        </div>
+        <div class="col">
+            <div class="form-group">
+            {{ form.last_name.errors }}
+            <label for="{{ form.last_name.id_for_label }}">Last name:</label>
+            {{ form.last_name }}
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        {{form.biography.errors}}
+        <label for="{{form.biography.id_for_label}}">Biography:</label>
+        {{form.biography}}
+    </div>
+    <input type="submit" value="Potwierdź" class="btn btn-primary"/>
+</form>
+
+
+{% endblock %}

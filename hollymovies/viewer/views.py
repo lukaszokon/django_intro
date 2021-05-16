@@ -13,6 +13,12 @@ from .models import Movie, Genre
 LOGGER = getLogger()
 
 
+class GenreDeleteView(LoginRequiredMixin, DeleteView):
+    template_name = 'genre_delete.html'
+    model = Genre
+    success_url = reverse_lazy('genres')
+
+
 class MovieDeleteView(LoginRequiredMixin, DeleteView):
     template_name = 'movie_delete.html'
     model = Movie
@@ -31,8 +37,22 @@ class MovieUpdateView(LoginRequiredMixin, UpdateView):
         return super().form_invalid(form)
 
 
-class GenreCreateView(CreateView):
-    template_name = 'form.html'
+class GenreUpdateView(LoginRequiredMixin, UpdateView):
+    template_name = 'genre_form.html'
+    model = Genre
+    form_class = GenreForm
+    success_url = reverse_lazy('genres')
+
+    def form_invalid(self, form):
+        LOGGER.warning('Użytkownik przesłał nieprawidłowe dane')
+        return super().form_invalid(form)
+
+
+
+
+
+class GenreCreateView(LoginRequiredMixin, CreateView):
+    template_name = 'genre_form.html'
     form_class = GenreForm
     success_url = reverse_lazy('genres')
 
