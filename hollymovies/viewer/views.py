@@ -3,14 +3,32 @@ from operator import attrgetter
 
 from django.shortcuts import render
 from django.http import HttpResponse
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
-from django.core.exceptions import ValidationError
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .forms import MovieForm, GenreForm
 from .models import Movie, Genre
 
 LOGGER = getLogger()
+
+
+class MovieDeleteView(LoginRequiredMixin, DeleteView):
+    template_name = 'movie_delete.html'
+    model = Movie
+    success_url = reverse_lazy('movies')
+
+
+class MovieUpdateView(LoginRequiredMixin, UpdateView):
+
+    template_name = 'movie_form.html'
+    model = Movie
+    form_class = MovieForm
+    success_url = reverse_lazy('movies')
+
+    def form_invalid(self, form):
+        LOGGER.warning('Użyszkodnik wprowadził błędne dane')
+        return super().form_invalid(form)
 
 
 class GenreCreateView(CreateView):
@@ -23,8 +41,8 @@ class GenreCreateView(CreateView):
         return super().form_invalid(form)
 
 
-class MovieCreateView(CreateView):
-    template_name = 'form.html'
+class MovieCreateView(LoginRequiredMixin, CreateView):
+    template_name = 'movie_form.html'
     form_class = MovieForm
     success_url = reverse_lazy('movies')
 
@@ -35,6 +53,7 @@ class MovieCreateView(CreateView):
 
 class MovieView(ListView):
     template_name = 'movies.html'
+    paginate_by = 5
     model = Movie
 
     def get_queryset(self):

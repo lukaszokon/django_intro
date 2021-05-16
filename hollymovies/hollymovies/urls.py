@@ -17,11 +17,13 @@ from django.contrib import admin
 from django.urls import path
 from django.conf.urls import url, include
 from viewer.models import Genre, Movie
+from django.contrib.auth.views import LoginView
 
 admin.site.register(Genre)
 admin.site.register(Movie)
 
 urlpatterns = [
+    path('accounts/', include('accounts.urls')),
     path('admin/', admin.site.urls),
     url('', include('viewer.urls'))
 ]

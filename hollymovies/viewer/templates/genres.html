@@ -4,9 +4,9 @@
     <h1>Lista gatunków:</h1>
     <ul>
         {% for genre in object_list %}
-            <li>
-                <a href="{% url 'movies' %}?genre={{genre.name}}">{{genre.name}}</a>
-            </li>
+                <li>
+                    <a href="{% url 'movies' %}?genre={{genre.name}}">{{genre.name}}</a>
+                </li>
         {% endfor %}
     </ul>
     <a href="{% url 'genre-create' %}" class="btn btn-primary">Dodaj gatunek</a>
