@@ -2,7 +2,7 @@ import re
 from datetime import date
 from django.core.exceptions import ValidationError
 from django.forms import CharField, DateField, ModelForm, IntegerField, ModelChoiceField, Textarea
-from .models import Genre, Movie
+from .models import Genre, Movie, Comment
 
 
 def capitalized_validator(value):
@@ -39,6 +39,18 @@ class GenreForm(ModelForm):
         fields = '__all__'
 
     name = CharField(max_length=128, validators=[capitalized_validator, exists_genre_validator])
+
+
+class CommentForm(ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'form-control'
+
+    class Meta:
+        model = Comment
+        fields = ['text']
 
 
 class MovieForm(ModelForm):

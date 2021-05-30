@@ -16,13 +16,17 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.conf.urls import url, include
-from viewer.models import Genre, Movie
+from viewer.models import Genre, Movie, Comment
+from viewer.admin import MovieAdmin, GenreAdmin, CommentAdmin
+from api.urls import router
 
-admin.site.register(Genre)
-admin.site.register(Movie)
+admin.site.register(Genre, GenreAdmin)
+admin.site.register(Movie, MovieAdmin)
+admin.site.register(Comment, CommentAdmin)
 
 urlpatterns = [
     path('accounts/', include('accounts.urls')),
     path('admin/', admin.site.urls),
+    path('api/', include(router.urls)),
     url('', include('viewer.urls'))
 ]

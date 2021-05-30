@@ -3,7 +3,7 @@ from django.forms import CharField, Textarea
 from django.db.transaction import atomic
 from .models import Profile
 from django.forms import ModelForm
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 
 
 class SignUpForm(UserCreationForm):
@@ -15,8 +15,11 @@ class SignUpForm(UserCreationForm):
 
     @atomic
     def save(self, commit=True):
-        self.instance.is_active = False
+        self.instance.is_active = True
         result = super().save(commit)
+        grupa = Group.objects.filter(name='zwykli_uzytkownicy')
+        if grupa.first():
+            result.groups.add(grupa.first())
         biography = self.cleaned_data['biography']
         profile = Profile(biography=biography, user=result)
         if commit:
